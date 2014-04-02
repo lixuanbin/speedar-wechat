@@ -38,9 +38,6 @@ public class SpeedarWechatCredential {
 	@Value("${domain.name}")
 	private String domainName;
 
-	@Value("${context.path}")
-	private String contextPath;
-
 	@Value("${account.id}")
 	private String accountId;
 
@@ -63,7 +60,6 @@ public class SpeedarWechatCredential {
 				// Decrypt sensitive data.
 				token = aes.decrypt(token, speedarkey);
 				domainName = aes.decrypt(domainName, speedarkey);
-				contextPath = aes.decrypt(contextPath, speedarkey);
 				accountId = aes.decrypt(accountId, speedarkey);
 			} catch (Throwable e) {
 				log.error(e, e);
@@ -87,15 +83,6 @@ public class SpeedarWechatCredential {
 	 */
 	public String getDomainName() {
 		return domainName;
-	}
-
-	/**
-	 * Return the context path.
-	 * 
-	 * @return
-	 */
-	public String getContextPath() {
-		return contextPath;
 	}
 
 	public String getAccountId() {
