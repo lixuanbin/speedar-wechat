@@ -225,13 +225,25 @@
 	</reporting>
 	<profiles>
 		<profile>
-			<id>prod</id>
+			<id>prod1</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
 				<mvn.mode>prod</mvn.mode>
 				<mvn.context>speedar</mvn.context>
+				<mvn.jboss.log.home>/var/log/jboss1</mvn.jboss.log.home>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod2</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<mvn.mode>prod</mvn.mode>
+				<mvn.context>speedar</mvn.context>
+				<mvn.jboss.log.home>/var/log/jboss2</mvn.jboss.log.home>
 			</properties>
 		</profile>
 		<profile>
@@ -242,6 +254,7 @@
 			<properties>
 				<mvn.mode>dev</mvn.mode>
 				<mvn.context>speedar</mvn.context>
+				<mvn.jboss.log.home>/var/log/jboss</mvn.jboss.log.home>
 			</properties>
 		</profile>
 		<profile>
@@ -252,6 +265,7 @@
 			<properties>
 				<mvn.mode>mac</mvn.mode>
 				<mvn.context>speedar</mvn.context>
+				<mvn.jboss.log.home>/var/log/jboss</mvn.jboss.log.home>
 			</properties>
 		</profile>
 	</profiles>

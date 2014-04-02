@@ -114,6 +114,8 @@ public class SpeedarWechatServlet extends HttpServlet {
 			} catch (Exception e) {
 				log.error(e, e);
 			}
+		} else {
+			log.error("invalid signature");
 		}
 	}
 
