@@ -146,7 +146,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>speedar</finalName>
+		<finalName>speedar-wechat</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
