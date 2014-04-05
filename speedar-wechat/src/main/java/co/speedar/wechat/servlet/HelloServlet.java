@@ -23,7 +23,7 @@ public class HelloServlet extends HttpServlet {
 	protected static final Logger log = Logger.getLogger(HelloServlet.class);
 	private static final long serialVersionUID = 6536688299231165548L;
 
-	@Value("profile.id")
+	@Value("${profile.id}")
 	private String profileId;
 
 	/**
