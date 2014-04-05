@@ -233,6 +233,7 @@
 				<mvn.mode>prod</mvn.mode>
 				<mvn.context>speedar</mvn.context>
 				<mvn.jboss.log.home>/var/log/jboss1</mvn.jboss.log.home>
+				<mvn.profile.id>prod1</mvn.profile.id>
 			</properties>
 		</profile>
 		<profile>
@@ -244,6 +245,7 @@
 				<mvn.mode>prod</mvn.mode>
 				<mvn.context>speedar</mvn.context>
 				<mvn.jboss.log.home>/var/log/jboss2</mvn.jboss.log.home>
+				<mvn.profile.id>prod2</mvn.profile.id>
 			</properties>
 		</profile>
 		<profile>
@@ -255,6 +257,7 @@
 				<mvn.mode>dev</mvn.mode>
 				<mvn.context>speedar</mvn.context>
 				<mvn.jboss.log.home>/var/log/jboss</mvn.jboss.log.home>
+				<mvn.profile.id>dev</mvn.profile.id>
 			</properties>
 		</profile>
 		<profile>
@@ -266,6 +269,7 @@
 				<mvn.mode>mac</mvn.mode>
 				<mvn.context>speedar</mvn.context>
 				<mvn.jboss.log.home>/var/log/jboss</mvn.jboss.log.home>
+				<mvn.profile.id>mac</mvn.profile.id>
 			</properties>
 		</profile>
 	</profiles>
