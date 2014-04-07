@@ -157,6 +157,8 @@ public class ControllerHelper {
 		try {
 			locale = localeService.getLocale(openid);
 			message = messageSource2.getMessage(messageCode, args, locale);
+			log.info("getting i18n message using locale: " + locale
+					+ ", code: " + messageCode + ", message: " + message);
 		} catch (SpeedarException e) {
 			log.error(e, e);
 		}

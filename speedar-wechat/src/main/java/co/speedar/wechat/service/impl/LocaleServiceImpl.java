@@ -52,7 +52,7 @@ public class LocaleServiceImpl implements ILocaleService {
 			log.info("set locale using default language: " + defaultLanguage);
 		} else {
 			locale = new Locale((String) temp);
-			log.info("set locale using language: " + temp);
+			log.info("get locale using language: " + temp);
 		}
 		return locale;
 	}
