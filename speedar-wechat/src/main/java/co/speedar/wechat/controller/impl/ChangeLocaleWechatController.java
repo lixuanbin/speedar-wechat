@@ -94,7 +94,8 @@ public class ChangeLocaleWechatController extends BaseWechatController {
 				messageCode = "change.locale.success";
 				prompt = helper.getI18NMessage(openid, messageCode, null);
 				messageCode = "go.back.prompt";
-				prompt += helper.getI18NMessage(openid, messageCode, null);
+				prompt += "\r\n"
+						+ helper.getI18NMessage(openid, messageCode, null);
 				responsedTextMessage.setContent(prompt);
 				break;
 			default:
