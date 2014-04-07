@@ -54,7 +54,7 @@
 	<!-- i18n message source -->
 	<bean id="messageSource2"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="messages" />
+		<property name="basename" value="speedar_wechat_messages" />
 		<property name="useCodeAsDefaultMessage" value="true"></property>
 	</bean>
 </beans>
