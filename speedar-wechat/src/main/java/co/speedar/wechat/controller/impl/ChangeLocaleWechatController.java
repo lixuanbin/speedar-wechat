@@ -87,6 +87,10 @@ public class ChangeLocaleWechatController extends BaseWechatController {
 				}
 				String language = languages[option - 1];
 				localeService.changLocale(openid, language);
+				session = container.getSession(openid);
+				session.setAttribute(WechatSessionKey.BUSINESS_STATE,
+						ChangeLocaleState.INIT);
+				container.setSession(openid, session);
 				messageCode = "change.locale.success";
 				prompt = helper.getI18NMessage(openid, messageCode, null);
 				messageCode = "go.back.prompt";

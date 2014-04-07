@@ -76,7 +76,7 @@ public class LocaleServiceImpl implements ILocaleService {
 		// Change and cache language.
 		WechatSession session = sessionContainer.getSession(openid);
 		session.setAttribute(WechatSessionKey.BUSINESS_STATE,
-				ChangeLocaleState.INIT);
+				ChangeLocaleState.DONE);
 		session.setAttribute(WechatSessionKey.LANGUAGE, language);
 		sessionContainer.setSession(openid, session);
 	}
