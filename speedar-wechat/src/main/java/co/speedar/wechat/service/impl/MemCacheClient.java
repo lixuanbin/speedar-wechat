@@ -21,7 +21,7 @@ import com.whalin.MemCached.MemCachedClient;
  * @author ben
  * @creation 2014年3月14日
  */
-@Component
+@Component("cacheClient")
 public class MemCacheClient implements ICacheClient {
 	@Autowired
 	public MemCachedClient mc;
@@ -74,7 +74,7 @@ public class MemCacheClient implements ICacheClient {
 	public Serializable getCacheValue(String key) {
 		if (StringUtils.isNotBlank(key)) {
 			Object temp = mc.get(key);
-			return temp != null ? (Serializable)temp : null;
+			return temp != null ? (Serializable) temp : null;
 		} else {
 			throw new IllegalArgumentException("key cannot be blank.");
 		}

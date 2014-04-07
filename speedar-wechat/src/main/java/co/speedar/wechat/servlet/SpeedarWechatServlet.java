@@ -16,8 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import co.speedar.wechat.message.base.BaseReceivedMessage;
-import co.speedar.wechat.service.IEchoService;
+import co.speedar.wechat.controller.IWechatRequestDispatcher;
 import co.speedar.wechat.util.WechatSignatureVerifier;
 import co.speedar.wechat.util.XmlTool;
 
@@ -40,7 +39,7 @@ public class SpeedarWechatServlet extends HttpServlet {
 	private WechatSignatureVerifier verifier;
 
 	@Autowired
-	private IEchoService echoService;
+	private IWechatRequestDispatcher dispatcher;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -102,9 +101,8 @@ public class SpeedarWechatServlet extends HttpServlet {
 		if (verifier.isValid(signature, timestamp, nonce)
 				|| !StringUtils.equalsIgnoreCase("prod", mode)) {
 			try {
-				String responseXmlString = echoService.echo(
-						BaseReceivedMessage.fromXml(requestXmlString))
-						.toString();
+				String responseXmlString = dispatcher
+						.dispatch(requestXmlString);
 				log.info("responsed xml data:\n" + responseXmlString);
 				response.setCharacterEncoding(encoding);
 				PrintWriter writer = response.getWriter();
