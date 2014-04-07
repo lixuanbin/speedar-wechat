@@ -62,6 +62,9 @@ public class WechatSessionContainer {
 	 * @return
 	 */
 	public Object getGlobalValue(String key) {
+		if (StringUtils.isBlank(key)) {
+			throw new IllegalArgumentException("Key cannot be empty!");
+		}
 		return cacheClient.getCacheValue(key);
 	}
 
@@ -74,6 +77,9 @@ public class WechatSessionContainer {
 	 * @return
 	 */
 	public WechatSession getSession(String openid) {
+		if (StringUtils.isBlank(openid)) {
+			throw new IllegalArgumentException("Openid cannot be empty!");
+		}
 		Object temp = getGlobalValue(openid);
 		WechatSession WechatSession = null;
 		if (temp == null) {
@@ -92,6 +98,9 @@ public class WechatSessionContainer {
 	 * @return
 	 */
 	public boolean setSession(String openid, WechatSession session) {
+		if (StringUtils.isBlank(openid)) {
+			throw new IllegalArgumentException("Openid cannot be empty!");
+		}
 		return setSession(openid, session, defaultSessionTimeoutSeconds);
 	}
 
@@ -107,8 +116,7 @@ public class WechatSessionContainer {
 	public boolean setSession(String openid, WechatSession session,
 			int expiredSeconds) {
 		if (expiredSeconds > 0) {
-			return cacheClient.setCacheValue(openid, session,
-					expiredSeconds);
+			return cacheClient.setCacheValue(openid, session, expiredSeconds);
 		} else {
 			throw new IllegalArgumentException(
 					"expiredSeconds must be positive.");
@@ -121,6 +129,9 @@ public class WechatSessionContainer {
 	 * @param openid
 	 */
 	public void removeSession(String openid) {
+		if (StringUtils.isBlank(openid)) {
+			throw new IllegalArgumentException("Openid cannot be empty!");
+		}
 		cacheClient.deleteCacheValue(openid);
 	}
 

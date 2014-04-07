@@ -12,7 +12,8 @@ package co.speedar.wechat.constant;
 public enum WechatSessionKey {
 	TEST("testOnly"), WEIXIN_SIGNATURE("weixinSignature"), BUSINESS_TYPE(
 			"businessType"), BUSINESS_STATE("businessState"), WECHAT_USER(
-			"wechatUser"), LOCALE("locale");
+			"wechatUser"), LOCALE("locale"), VALID_MESSAGE_TYPE("validMsgType"), GUESS_NUMBER(
+			"guessNumber");
 
 	private final String name;
 

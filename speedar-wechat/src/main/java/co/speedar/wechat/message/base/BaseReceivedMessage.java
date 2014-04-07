@@ -51,7 +51,8 @@ public abstract class BaseReceivedMessage extends BaseMessage {
 			xstream.alias("xml", ReceivedVoiceMessage.class);
 		} else {
 			throw new UnsupportedMessageTypeException(
-					"Unsupported message type: \n" + xmlString);
+					"Unsupported message type " + MsgType + " in \n"
+							+ xmlString);
 		}
 		receivedWxMessage = (BaseReceivedMessage) xstream.fromXML(xmlString);
 		xstream = null;
