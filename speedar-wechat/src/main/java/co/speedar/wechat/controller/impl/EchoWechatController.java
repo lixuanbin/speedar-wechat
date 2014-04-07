@@ -60,6 +60,7 @@ public class EchoWechatController extends BaseWechatController {
 				responsedTextMessage.setContent(prompt);
 				session.setAttribute(WechatSessionKey.BUSINESS_STATE,
 						EchoState.ECHO);
+				container.setSession(openid, session);
 				break;
 			case EchoState.ECHO:
 				responsedTextMessage.setContent(receivedTextContent);
@@ -77,7 +78,6 @@ public class EchoWechatController extends BaseWechatController {
 					"Invalid message type: " + MsgType);
 		}
 		responsedMessage = responsedTextMessage;
-		container.setSession(openid, session);
 		return responsedMessage;
 	}
 

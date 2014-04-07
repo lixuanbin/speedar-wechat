@@ -61,8 +61,6 @@ public class GuessNumberServiceImpl implements IGuessNumberService {
 			} else {
 				guessResult = GuessNumberState.BINGO;
 			}
-			session.setAttribute(WechatSessionKey.BUSINESS_STATE, guessResult);
-			sessionContainer.setSession(openid, session);
 			return guessResult;
 		} catch (NullPointerException e) {
 			log.error(e, e);

@@ -73,14 +73,20 @@ public class GuessNumberWechatController extends BaseWechatController {
 				int number = guessNumberService.generateGuessNumber(openid);
 				log.info("Guess number: " + number + " generated for user: "
 						+ openid);
+				session.setAttribute(WechatSessionKey.GUESS_NUMBER, number);
 				session.setAttribute(WechatSessionKey.BUSINESS_STATE,
 						GuessNumberState.PROMPT_SENT);
+				container.setSession(openid, session);
 				break;
 			case GuessNumberState.PROMPT_SENT:
 			case GuessNumberState.TOO_BIG:
 			case GuessNumberState.TOO_SMALL:
 				int guessResult = guessNumberService.guess(openid,
 						Integer.valueOf(receivedTextContent));
+				session = container.getSession(openid);
+				session.setAttribute(WechatSessionKey.BUSINESS_STATE,
+						guessResult);
+				container.setSession(openid, session);
 				if (guessResult == GuessNumberState.TOO_BIG) {
 					// Prompt for too big.
 					messageCode = "guess.number.big";
@@ -101,6 +107,7 @@ public class GuessNumberWechatController extends BaseWechatController {
 					prompt += helper.getI18NMessage(openid, messageCode, null);
 					session.setAttribute(WechatSessionKey.BUSINESS_STATE,
 							GuessNumberState.INIT);
+					container.setSession(openid, session);
 				}
 				responsedTextMessage.setContent(prompt);
 				break;
@@ -117,7 +124,6 @@ public class GuessNumberWechatController extends BaseWechatController {
 					"Invalid message type: " + MsgType);
 		}
 		responsedMessage = responsedTextMessage;
-		container.setSession(openid, session);
 		return responsedMessage;
 	}
 

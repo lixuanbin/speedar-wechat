@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import co.speedar.wechat.constant.ChangeLocaleState;
 import co.speedar.wechat.constant.WechatSessionKey;
 import co.speedar.wechat.exception.SpeedarException;
 import co.speedar.wechat.exception.UnsupportedLocaleException;
@@ -43,11 +44,13 @@ public class LocaleServiceImpl implements ILocaleService {
 	public Locale getLocale(String openid) throws SpeedarException {
 		WechatSession session = sessionContainer.getSession(openid);
 		Locale locale;
-		Object temp = session.getAttribute(WechatSessionKey.LOCALE);
+		Object temp = session.getAttribute(WechatSessionKey.LANGUAGE);
 		if (temp == null) {
 			locale = new Locale(defaultLanguage);
+			session.setAttribute(WechatSessionKey.LANGUAGE, defaultLanguage);
+			sessionContainer.setSession(openid, session);
 		} else {
-			locale = (Locale) session.getAttribute(WechatSessionKey.LOCALE);
+			locale = new Locale((String) temp);
 		}
 		return locale;
 	}
@@ -70,10 +73,11 @@ public class LocaleServiceImpl implements ILocaleService {
 			throw new UnsupportedLocaleException("Language " + language
 					+ " is unsupported in this system.");
 		}
-		// Change and cache locale.
-		Locale locale = new Locale(language);
+		// Change and cache language.
 		WechatSession session = sessionContainer.getSession(openid);
-		session.setAttribute(WechatSessionKey.LOCALE, locale);
+		session.setAttribute(WechatSessionKey.BUSINESS_STATE,
+				ChangeLocaleState.INIT);
+		session.setAttribute(WechatSessionKey.LANGUAGE, language);
 		sessionContainer.setSession(openid, session);
 	}
 

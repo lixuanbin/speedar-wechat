@@ -85,6 +85,8 @@ public class MenuWechatController implements IWechatController {
 				responsedTextMessage = null;
 				session.setAttribute(WechatSessionKey.BUSINESS_STATE,
 						MenuState.MENU_SENT);
+				// Set back the session.
+				sessionContainer.setSession(openid, session);
 				break;
 			case MenuState.MENU_SENT:
 				// Menu has been sent.
@@ -124,8 +126,6 @@ public class MenuWechatController implements IWechatController {
 			throw new SpeedarException("invalid.message.type",
 					"Invalid message type: " + MsgType);
 		}
-		// Set back the session.
-		sessionContainer.setSession(openid, session);
 		// Return the response xml.
 		return (responsedMessage != null ? responsedMessage.toXml() : null);
 	}

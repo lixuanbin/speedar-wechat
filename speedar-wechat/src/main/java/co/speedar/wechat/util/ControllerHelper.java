@@ -7,16 +7,17 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 
-import co.speedar.wechat.constant.WechatSessionKey;
-import co.speedar.wechat.exception.UnsupportedLocaleException;
+import co.speedar.wechat.exception.SpeedarException;
 import co.speedar.wechat.message.ResponsedTextMessage;
 import co.speedar.wechat.message.base.BaseReceivedMessage;
+import co.speedar.wechat.service.ILocaleService;
 
 /**
  * Contains some useful tools and data that might be helpful to wechat controllers.
@@ -26,6 +27,8 @@ import co.speedar.wechat.message.base.BaseReceivedMessage;
  */
 @Component("controllerHelper")
 public class ControllerHelper {
+	protected static Logger log = Logger.getLogger(ControllerHelper.class);
+
 	@Autowired
 	private WechatSessionContainer sessionContainer;
 
@@ -44,6 +47,9 @@ public class ControllerHelper {
 	@Autowired
 	@Qualifier("messageSource2")
 	private ResourceBundleMessageSource messageSource2;
+
+	@Autowired
+	private ILocaleService localeService;
 
 	/**
 	 * @return
@@ -99,56 +105,6 @@ public class ControllerHelper {
 	}
 
 	/**
-	 * Get locale from cache, set to default locale if not set.
-	 * 
-	 * @param openid
-	 * @return
-	 */
-	public Locale getLocale(String openid) {
-		Locale locale;
-		WechatSession session;
-		session = sessionContainer.getSession(openid);
-		Object temp = session.getAttribute(WechatSessionKey.LOCALE);
-		if (temp != null) {
-			locale = (Locale) temp;
-		} else {
-			locale = new Locale(defaultLanguage);
-			session.setAttribute(WechatSessionKey.LOCALE, locale);
-			sessionContainer.setSession(openid, session);
-		}
-		return locale;
-	}
-
-	/**
-	 * Change the user's locale.
-	 * 
-	 * @param openid
-	 * @param language
-	 * @throws UnsupportedLocaleException 
-	 */
-	public void changeLocale(String openid, String language)
-			throws UnsupportedLocaleException {
-		// Check if language is supported.
-		boolean isSupportedLanguage = false;
-		String[] languages = getSupportedLanguages();
-		for (String tempLanguage : languages) {
-			if (StringUtils.equalsIgnoreCase(tempLanguage, language)) {
-				isSupportedLanguage = true;
-				break;
-			}
-		}
-		if (!isSupportedLanguage) {
-			throw new UnsupportedLocaleException("Language " + language
-					+ " is unsupported in this system.");
-		}
-		// Change and cache locale.
-		Locale locale = new Locale(language);
-		WechatSession session = sessionContainer.getSession(openid);
-		session.setAttribute(WechatSessionKey.LOCALE, locale);
-		sessionContainer.setSession(openid, session);
-	}
-
-	/**
 	 * Generate response text message by received message and assigned text
 	 * 
 	 * @param receivedWxMessage
@@ -196,8 +152,14 @@ public class ControllerHelper {
 	 */
 	public String getI18NMessage(String openid, String messageCode,
 			Object[] args) {
-		Locale locale = getLocale(openid);
-		String message = messageSource2.getMessage(messageCode, args, locale);
+		String message = messageCode;
+		Locale locale;
+		try {
+			locale = localeService.getLocale(openid);
+			message = messageSource2.getMessage(messageCode, args, locale);
+		} catch (SpeedarException e) {
+			log.error(e, e);
+		}
 		return message;
 	}
 }

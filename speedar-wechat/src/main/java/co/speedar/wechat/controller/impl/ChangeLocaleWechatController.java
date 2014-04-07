@@ -76,6 +76,7 @@ public class ChangeLocaleWechatController extends BaseWechatController {
 				responsedTextMessage.setContent(prompt);
 				session.setAttribute(WechatSessionKey.BUSINESS_STATE,
 						ChangeLocaleState.PROMPT_SENT);
+				container.setSession(openid, session);
 				break;
 			case ChangeLocaleState.PROMPT_SENT:
 				int option = Integer.valueOf((String) receivedTextContent);
@@ -91,8 +92,6 @@ public class ChangeLocaleWechatController extends BaseWechatController {
 				messageCode = "go.back.prompt";
 				prompt += helper.getI18NMessage(openid, messageCode, null);
 				responsedTextMessage.setContent(prompt);
-				session.setAttribute(WechatSessionKey.BUSINESS_STATE,
-						ChangeLocaleState.INIT);
 				break;
 			default:
 				// State transition error.
@@ -107,7 +106,6 @@ public class ChangeLocaleWechatController extends BaseWechatController {
 					"Invalid message type: " + MsgType);
 		}
 		responsedMessage = responsedTextMessage;
-		container.setSession(openid, session);
 		return responsedMessage;
 	}
 
