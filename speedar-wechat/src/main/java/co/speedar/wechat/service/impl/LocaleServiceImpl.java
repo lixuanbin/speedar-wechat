@@ -49,8 +49,10 @@ public class LocaleServiceImpl implements ILocaleService {
 			locale = new Locale(defaultLanguage);
 			session.setAttribute(WechatSessionKey.LANGUAGE, defaultLanguage);
 			sessionContainer.setSession(openid, session);
+			log.info("set locale using default language: " + defaultLanguage);
 		} else {
 			locale = new Locale((String) temp);
+			log.info("set locale using language: " + temp);
 		}
 		return locale;
 	}
@@ -75,6 +77,8 @@ public class LocaleServiceImpl implements ILocaleService {
 		}
 		// Change and cache language.
 		WechatSession session = sessionContainer.getSession(openid);
+		Object temp = session.getAttribute(WechatSessionKey.LANGUAGE);
+		log.info("origin language: " + temp + ", change to " + language);
 		session.setAttribute(WechatSessionKey.BUSINESS_STATE,
 				ChangeLocaleState.DONE);
 		session.setAttribute(WechatSessionKey.LANGUAGE, language);
